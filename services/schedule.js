@@ -14,20 +14,20 @@ function checkScheduledTasks() {
       taskTime.getFullYear() === now.getFullYear()
     ) {
       bot.sendMessage(task.chatId, `⏰ Нагадування: ${task.task}`);
-      scheduledTasks.splice(index, 1); 
+      scheduledTasks.splice(index, 1);
     }
   });
 }
-  
+
 function scheduleTask(chatId) {
   bot.sendMessage(
     chatId,
-    "Введи завдання у форматі: Текст завдання - Дата (наприклад: Завдання на тренування - 2024.12.08):"
+    'Введи завдання у форматі: Текст завдання - Дата (наприклад: Завдання на тренування - 2024.12.08):',
   );
 
   bot.once('message', function handleTask(response) {
     if (response.text === 'Вийти') {
-      bot.sendMessage(chatId, "Відмінено планування завдання.");
+      bot.sendMessage(chatId, 'Відмінено планування завдання.');
       return;
     }
 
@@ -35,7 +35,7 @@ function scheduleTask(chatId) {
     const match = response.text.match(regex);
 
     if (!match) {
-      bot.sendMessage(chatId, "❌ Невірний формат. Спробуй ще раз.");
+      bot.sendMessage(chatId, '❌ Невірний формат. Спробуй ще раз.');
       return;
     }
 
@@ -44,7 +44,7 @@ function scheduleTask(chatId) {
     const scheduledDate = new Date(dateString);
 
     if (isNaN(scheduledDate.getTime())) {
-      bot.sendMessage(chatId, "❌ Невірна дата. Спробуй ще раз.");
+      bot.sendMessage(chatId, '❌ Невірна дата. Спробуй ще раз.');
       return;
     }
 
@@ -56,18 +56,19 @@ function scheduleTask(chatId) {
 
     bot.sendMessage(
       chatId,
-      `✅ Завдання "${taskText}" заплановано на ${scheduledDate.toDateString()}.`
+      `✅ Завдання "${taskText}" заплановано на ${scheduledDate.toDateString()}.`,
     );
   });
 }
 
 function viewScheduledTasks(chatId) {
   if (scheduledTasks.length === 0) {
-    bot.sendMessage(chatId, "❗ У тебе немає запланованих завдань.");
+    bot.sendMessage(chatId, '❗ У тебе немає запланованих завдань.');
   } else {
     const taskListMessage = scheduledTasks
       .map(
-        (task, index) => `${index + 1}. ${task.task} - ${task.date.toDateString()}`
+        (task, index) =>
+          `${index + 1}. ${task.task} - ${task.date.toDateString()}`,
       )
       .join('\n');
 
@@ -79,7 +80,7 @@ function viewScheduledTasks(chatId) {
 }
 
 module.exports = {
-  checkScheduledTasks, 
-  scheduleTask, 
-  viewScheduledTasks, 
-}
+  checkScheduledTasks,
+  scheduleTask,
+  viewScheduledTasks,
+};

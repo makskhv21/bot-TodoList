@@ -4,12 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
-    "format": "prettier --write .",
+    "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint .",
-    "prepare": "husky install",
+    "format": "prettier --write .",
     "prettier:check": "prettier --check .",
-    "prettier:write": "prettier --write ."
+    "prettier:write": "prettier --write .",
+    "prepare": "husky install"
   },
   "keywords": [],
   "author": "",

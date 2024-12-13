@@ -11,9 +11,9 @@ const scheduledTasks = [];
 const mainMenuKeyboard = {
   reply_markup: {
     keyboard: [
-      ['Додати 📝', 'Переглянути 📋'], 
-      ['Запланувати ⌛', 'Команди 👨🏻‍💻'], 
-      ['Вийти'] 
+      ['Додати 📝', 'Переглянути 📋'],
+      ['Запланувати ⌛', 'Команди 👨🏻‍💻'],
+      ['Вийти'],
     ],
     resize_keyboard: true,
     one_time_keyboard: true,
@@ -22,18 +22,14 @@ const mainMenuKeyboard = {
 
 const addTaskKeyboard = {
   reply_markup: {
-    keyboard: [
-      ['Завершити додавання завдань'],
-    ],
+    keyboard: [['Завершити додавання завдань']],
     resize_keyboard: true,
   },
 };
 
 const scheduleTaskKeyboard = {
   reply_markup: {
-    keyboard: [
-      ['Планувати завдання з датою', 'Вийти'],
-    ],
+    keyboard: [['Планувати завдання з датою', 'Вийти']],
     resize_keyboard: true,
   },
 };
@@ -52,13 +48,12 @@ function checkScheduledTasks() {
       taskTime.getFullYear() === now.getFullYear()
     ) {
       bot.sendMessage(task.chatId, `⏰ Нагадування: ${task.task}`);
-      scheduledTasks.splice(index, 1); 
+      scheduledTasks.splice(index, 1);
     }
   });
 }
 
 setInterval(checkScheduledTasks, 60000);
-
 
 function weeklyReport() {
   let totalTasks = 0;
@@ -68,7 +63,7 @@ function weeklyReport() {
   for (const userId in userTasks) {
     if (userTasks[userId]) {
       totalTasks += userTasks[userId].length;
-      completedTasks += userTasks[userId].filter(task => task.done).length;
+      completedTasks += userTasks[userId].filter((task) => task.done).length;
     }
   }
 
@@ -85,7 +80,7 @@ function weeklyReport() {
 function scheduleWeeklyReport() {
   const now = new Date();
   const nextMonday = new Date();
-  
+
   nextMonday.setDate(now.getDate() + ((8 - now.getDay()) % 7));
   nextMonday.setHours(12, 0, 0);
 
@@ -93,7 +88,7 @@ function scheduleWeeklyReport() {
 
   setTimeout(() => {
     weeklyReport();
-    scheduleWeeklyReport(); 
+    scheduleWeeklyReport();
   }, timeUntilNextReport);
 }
 
@@ -102,20 +97,23 @@ scheduleWeeklyReport();
 function autoDeleteYesterdayTasks() {
   const now = new Date();
   const yesterday = new Date();
-  yesterday.setDate(now.getDate() - 1); 
+  yesterday.setDate(now.getDate() - 1);
 
   for (const userId in userTasks) {
     if (userTasks[userId]) {
-      userTasks[userId] = userTasks[userId].filter(task => {
+      userTasks[userId] = userTasks[userId].filter((task) => {
         const taskDate = new Date(task.date);
         if (
-          task.done && 
+          task.done &&
           taskDate.getDate() === yesterday.getDate() &&
           taskDate.getMonth() === yesterday.getMonth() &&
           taskDate.getFullYear() === yesterday.getFullYear()
         ) {
-          bot.sendMessage(userId, `🗑️ Завдання "${task.task}" було автоматично видалено.`);
-          return false; 
+          bot.sendMessage(
+            userId,
+            `🗑️ Завдання "${task.task}" було автоматично видалено.`,
+          );
+          return false;
         }
         return true;
       });
@@ -132,7 +130,10 @@ function autoDeleteYesterdayTasks() {
       taskDate.getMonth() === yesterday.getMonth() &&
       taskDate.getFullYear() === yesterday.getFullYear()
     ) {
-      bot.sendMessage(task.chatId, `🗑️ Заплановане завдання "${task.task}" було автоматично видалено.`);
+      bot.sendMessage(
+        task.chatId,
+        `🗑️ Заплановане завдання "${task.task}" було автоматично видалено.`,
+      );
       scheduledTasks.splice(i, 1);
     }
   }
@@ -141,7 +142,7 @@ function autoDeleteYesterdayTasks() {
 setInterval(autoDeleteYesterdayTasks, 1 * 60 * 1000);
 
 function showMainMenu(chatId) {
-  bot.sendMessage(chatId, "Головне меню:", {
+  bot.sendMessage(chatId, 'Головне меню:', {
     reply_markup: mainMenuKeyboard.reply_markup,
   });
 }
@@ -167,12 +168,12 @@ function getTodayFormatted() {
 function scheduleTask(chatId) {
   bot.sendMessage(
     chatId,
-    "Введи завдання у форматі: Текст завдання - Дата (наприклад: Завдання на тренування - 2024.12.08):"
+    'Введи завдання у форматі: Текст завдання - Дата (наприклад: Завдання на тренування - 2024.12.08):',
   );
 
   bot.once('message', function handleTask(response) {
     if (response.text === 'Вийти') {
-      bot.sendMessage(chatId, "Відмінено планування завдання.");
+      bot.sendMessage(chatId, 'Відмінено планування завдання.');
       return;
     }
 
@@ -180,7 +181,7 @@ function scheduleTask(chatId) {
     const match = response.text.match(regex);
 
     if (!match) {
-      bot.sendMessage(chatId, "❌ Невірний формат. Спробуй ще раз.");
+      bot.sendMessage(chatId, '❌ Невірний формат. Спробуй ще раз.');
       return;
     }
 
@@ -189,7 +190,7 @@ function scheduleTask(chatId) {
     const scheduledDate = new Date(dateString);
 
     if (isNaN(scheduledDate.getTime())) {
-      bot.sendMessage(chatId, "❌ Невірна дата. Спробуй ще раз.");
+      bot.sendMessage(chatId, '❌ Невірна дата. Спробуй ще раз.');
       return;
     }
 
@@ -201,18 +202,19 @@ function scheduleTask(chatId) {
 
     bot.sendMessage(
       chatId,
-      `✅ Завдання "${taskText}" заплановано на ${scheduledDate.toDateString()}.`
+      `✅ Завдання "${taskText}" заплановано на ${scheduledDate.toDateString()}.`,
     );
   });
 }
 
 function viewScheduledTasks(chatId) {
   if (scheduledTasks.length === 0) {
-    bot.sendMessage(chatId, "❗ У тебе немає запланованих завдань.");
+    bot.sendMessage(chatId, '❗ У тебе немає запланованих завдань.');
   } else {
     const taskListMessage = scheduledTasks
       .map(
-        (task, index) => `${index + 1}. ${task.task} - ${task.date.toDateString()}`
+        (task, index) =>
+          `${index + 1}. ${task.task} - ${task.date.toDateString()}`,
       )
       .join('\n');
 
@@ -226,9 +228,12 @@ function viewScheduledTasks(chatId) {
 function delTask(chatId, index) {
   if (index >= 0 && index < scheduledTasks.length) {
     const removedTask = scheduledTasks.splice(index, 1);
-    bot.sendMessage(chatId, `🗑️ Завдання "${removedTask[0].task}" було видалено.`);
+    bot.sendMessage(
+      chatId,
+      `🗑️ Завдання "${removedTask[0].task}" було видалено.`,
+    );
   } else {
-    bot.sendMessage(chatId, "❌ Помилка: завдання не знайдено.");
+    bot.sendMessage(chatId, '❌ Помилка: завдання не знайдено.');
   }
 }
 
@@ -236,9 +241,12 @@ function doneTask(chatId, index) {
   if (index >= 0 && index < scheduledTasks.length) {
     const task = scheduledTasks[index];
     task.done = true;
-    bot.sendMessage(chatId, `✅ Завдання "${task.task}" позначено як виконане.`);
+    bot.sendMessage(
+      chatId,
+      `✅ Завдання "${task.task}" позначено як виконане.`,
+    );
   } else {
-    bot.sendMessage(chatId, "❌ Помилка: завдання не знайдено.");
+    bot.sendMessage(chatId, '❌ Помилка: завдання не знайдено.');
   }
 }
 
@@ -253,11 +261,9 @@ bot.onText(/\/start/, (msg) => {
     ⏳ Заплановувати нагадування.\n
     📊 Створювати звіти про виконані завдання щотижня.\n\n
     Готовий почати? Натисни кнопку нижче та обери потрібну опцію! 👇`,
-    { parse_mode: 'Markdown', reply_markup: mainMenuKeyboard.reply_markup }
+    { parse_mode: 'Markdown', reply_markup: mainMenuKeyboard.reply_markup },
   );
 });
-
-
 
 bot.on('message', (msg) => {
   const chatId = msg.chat.id;
@@ -292,21 +298,21 @@ bot.on('message', (msg) => {
     - 'Вийти' - Вихід з бота.
 
     💡 Якщо у вас є рекомендації або відгуки, напишіть їх у відповідь на це повідомлення.`;
-    
+
     bot.sendMessage(chatId, responseMessage);
-    
+
     // Очікуємо відгук
     bot.once('message', (response) => {
       if (response.text) {
         bot.sendMessage(
           chatId,
-          'Дякуємо за ваш відгук! Ми передамо його розробнику. 😊'
+          'Дякуємо за ваш відгук! Ми передамо його розробнику. 😊',
         );
 
         // Надсилання відгуку розробнику
         bot.sendMessage(
           developerChatId,
-          `📩 Новий відгук від користувача ${response.from.username || response.from.id}:\n"${response.text}"`
+          `📩 Новий відгук від користувача ${response.from.username || response.from.id}:\n"${response.text}"`,
         );
       }
     });
@@ -315,16 +321,16 @@ bot.on('message', (msg) => {
   if (msg.text === 'Додати 📝') {
     bot.sendMessage(
       chatId,
-      "Введи завдання, яке хочеш додати. Натисни кнопку 'Завершити додавання завдань', щоб зупинити."
+      "Введи завдання, яке хочеш додати. Натисни кнопку 'Завершити додавання завдань', щоб зупинити.",
     );
 
-    bot.sendMessage(chatId, "Тепер вводь завдання:", {
+    bot.sendMessage(chatId, 'Тепер вводь завдання:', {
       reply_markup: addTaskKeyboard.reply_markup,
     });
 
     bot.once('message', function handleTask(response) {
       if (response.text === 'Завершити додавання завдань') {
-        bot.sendMessage(chatId, "✅ Завершено процес додавання завдань.");
+        bot.sendMessage(chatId, '✅ Завершено процес додавання завдань.');
         showMainMenu(chatId);
         return;
       }
@@ -332,35 +338,37 @@ bot.on('message', (msg) => {
       if (response.text) {
         userTasks[chatId] = userTasks[chatId] || [];
         userTasks[chatId].push({ task: response.text, done: false });
-        bot.sendMessage(chatId, `✅ Завдання "${response.text}" додано до списку.`);
+        bot.sendMessage(
+          chatId,
+          `✅ Завдання "${response.text}" додано до списку.`,
+        );
         bot.once('message', handleTask);
       } else {
-        bot.sendMessage(chatId, "❌ Завдання не було введено.");
+        bot.sendMessage(chatId, '❌ Завдання не було введено.');
       }
     });
   }
 
-
   if (msg.text === 'Переглянути 📋') {
     if (!userTasks[chatId] || userTasks[chatId].length === 0) {
-      bot.sendMessage(chatId, "❗ У тебе немає завдань.");
+      bot.sendMessage(chatId, '❗ У тебе немає завдань.');
       return;
     }
 
     const today = getTodayFormatted();
     const taskListMessage = userTasks[chatId]
       .map(
-        (task, index) => `${index + 1}. ${task.done ? '✅' : '❌'} ${task.task}`
+        (task, index) =>
+          `${index + 1}. ${task.done ? '✅' : '❌'} ${task.task}`,
       )
       .join('\n');
 
     bot.sendMessage(
       chatId,
       `${today}\n*Ось твій список завдань:*\n${taskListMessage}\n\nВведи:\n- 'done <номер>', щоб позначити виконане.\n- 'delete <номер>', щоб видалити.`,
-      { parse_mode: 'Markdown' }
+      { parse_mode: 'Markdown' },
     );
   }
-
 
   if (msg.text.startsWith('delete ')) {
     const taskNumber = parseInt(msg.text.split(' ')[1]) - 1;
@@ -368,22 +376,24 @@ bot.on('message', (msg) => {
       const removedTask = userTasks[chatId].splice(taskNumber, 1);
       bot.sendMessage(chatId, `🗑️ Завдання "${removedTask[0].task}" видалено.`);
     } else {
-      bot.sendMessage(chatId, "❌ Помилка: завдання не знайдено.");
+      bot.sendMessage(chatId, '❌ Помилка: завдання не знайдено.');
     }
   }
-
 
   if (msg.text.startsWith('done ')) {
     const taskNumber = parseInt(msg.text.split(' ')[1]) - 1;
     if (userTasks[chatId] && userTasks[chatId][taskNumber]) {
       userTasks[chatId][taskNumber].done = true;
-      bot.sendMessage(chatId, `✅ Завдання "${userTasks[chatId][taskNumber].task}" позначено як виконане.`);
+      bot.sendMessage(
+        chatId,
+        `✅ Завдання "${userTasks[chatId][taskNumber].task}" позначено як виконане.`,
+      );
     } else {
-      bot.sendMessage(chatId, "❌ Помилка: завдання не знайдено.");
+      bot.sendMessage(chatId, '❌ Помилка: завдання не знайдено.');
     }
   }
 
   if (msg.text === 'Вийти') {
-    bot.sendMessage(chatId, "Вихід з меню.");
+    bot.sendMessage(chatId, 'Вихід з меню.');
   }
 });

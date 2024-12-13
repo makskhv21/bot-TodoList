@@ -1,10 +1,9 @@
 require('dotenv').config();
 const TelegramBot = require('node-telegram-bot-api');
 
-const token = process.env.TELEGRAM_TOKEN;
-const bot = new TelegramBot(token, { polling: true });
+const { token, developerChatId } = require('./config');
 
-const developerChatId = process.env.DEVELOPER_CHAT_ID;
+const bot = new TelegramBot(token, { polling: true });
 
 const userTasks = {};
 const scheduledTasks = [];

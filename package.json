@@ -8,7 +8,8 @@
     "format": "prettier --write .",
     "lint": "eslint .",
     "prepare": "husky install",
-    "prettier:check": "prettier --check ."
+    "prettier:check": "prettier --check .",
+    "prettier:write": "prettier --write ."
   },
   "keywords": [],
   "author": "",

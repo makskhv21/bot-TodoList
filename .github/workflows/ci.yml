@@ -1,0 +1,48 @@
+name: Telegram Bot CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Cache Node.js modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-modules-
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Set up .env file
+        run: echo "TELEGRAM_TOKEN=${{ secrets.TELEGRAM_TOKEN }}" >> .env
+
+      - name: Kill previous bot processes
+        run: |
+          # Шукаємо процеси бота та завершуємо їх
+          ps aux | grep 'node bot.js' | awk '{print $2}' | xargs kill -9 || true
+
+      - name: Run bot in background
+        run: |
+          nohup node bot.js > bot.log 2>&1 &
+
+      - name: Verify bot is running
+        run: |
+          ps aux | grep 'node bot.js'

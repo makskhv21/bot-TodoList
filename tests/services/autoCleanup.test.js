@@ -141,4 +141,20 @@ describe('autoDeleteOldTasks', () => {
     expect(scheduledTasks.length).toBe(1);
     expect(userTasks[123].length).toBe(1);
   });
+
+  it('should correctly delete tasks for the previous day', () => {
+    const now = new Date();
+    const oldTaskDate = new Date(now.setDate(now.getDate() - 1));
+    scheduledTasks.push({
+      chatId: 123,
+      date: oldTaskDate.toISOString(),
+      task: 'Old Task for Previous Day',
+    });
+
+    autoDeleteOldTasks();
+
+    expect(
+      scheduledTasks.some((task) => task.task === 'Old Task for Previous Day'),
+    ).toBeFalsy();
+  });
 });

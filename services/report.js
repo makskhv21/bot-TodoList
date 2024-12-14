@@ -37,4 +37,4 @@ function scheduleWeeklyReport() {
   }, timeUntilNextReport);
 }
 
-module.exports = { scheduleWeeklyReport };
+module.exports = { scheduleWeeklyReport, weeklyReport };

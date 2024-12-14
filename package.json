@@ -9,7 +9,8 @@
     "prepare": "husky install",
     "prettier:check": "prettier --check .",
     "prettier:write": "prettier --write .",
-    "test": "echo \"No tests specified\" && exit 0"
+    "test": "jest --coverage",
+    "test:watch": "jest --watch"
   },
   "keywords": [],
   "author": "",
@@ -30,6 +31,19 @@
     "*.js": [
       "eslint --fix",
       "prettier --write"
+    ]
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "collectCoverage": true,
+    "coverageDirectory": "coverage",
+    "coverageReporters": [
+      "text",
+      "lcov"
+    ],
+    "testMatch": [
+      "**/__tests__/**/*.js",
+      "**/?(*.)+(spec|test).js"
     ]
   }
 }

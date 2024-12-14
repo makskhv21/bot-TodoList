@@ -1,4 +1,7 @@
-const { mainMenuKeyboard, addTaskKeyboard } = require('../../keyboards/keyboards');
+const {
+  mainMenuKeyboard,
+  addTaskKeyboard,
+} = require('../../keyboards/keyboards');
 
 describe('Keyboard configurations', () => {
   it('should have the correct structure for mainMenuKeyboard', () => {

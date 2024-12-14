@@ -1,5 +1,4 @@
 const { scheduleWeeklyReport } = require('../../services/report');
-const { bot, userTasks, scheduledTasks } = require('../../data');
 
 jest.mock('../../data', () => {
   const mockBot = {

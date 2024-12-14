@@ -50,7 +50,6 @@ describe('checkScheduledTasks', () => {
   });
 
   it('should ignore tasks scheduled for another date', () => {
-    const now = new Date();
     scheduledTasks.push({
       chatId: 123,
       task: 'Test task',

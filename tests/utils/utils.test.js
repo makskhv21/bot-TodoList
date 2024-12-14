@@ -13,7 +13,7 @@ describe('getTodayFormatted', () => {
       'Субота',
     ];
     const expectedString = `${days[now.getDay()]} - ${now.getDate()}.${now.getMonth() + 1}.${now.getFullYear()} р.;`;
-    
+
     expect(getTodayFormatted()).toBe(expectedString);
   });
 });

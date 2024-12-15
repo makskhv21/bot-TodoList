@@ -53,7 +53,7 @@ describe('checkScheduledTasks', () => {
     scheduledTasks.push({
       chatId: 123,
       task: 'Test task',
-      date: new Date('2024-12-15T09:00:00'),
+      date: new Date('2024-12-15'),
     });
 
     checkScheduledTasks();
@@ -168,7 +168,7 @@ describe('viewScheduledTasks', () => {
     expect(bot.sendMessage).toHaveBeenCalledWith(
       123,
       expect.stringContaining(
-        '1. Task 1 - Tue Dec 10 2024\n2. Task 2 - Wed Dec 11 2024',
+        '1. ❌ Task 1 - Tue Dec 10 2024\n2. ❌ Task 2 - Wed Dec 11 2024',
       ),
     );
   });
@@ -190,7 +190,7 @@ describe('viewScheduledTasks', () => {
     expect(bot.sendMessage).toHaveBeenCalledWith(
       123,
       expect.stringContaining(
-        '1. Task A - Tue Dec 10 2024\n2. Task B - Tue Dec 10 2024',
+        '1. ❌ Task A - Tue Dec 10 2024\n2. ❌ Task B - Tue Dec 10 2024',
       ),
     );
   });

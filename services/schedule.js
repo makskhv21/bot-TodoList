@@ -68,7 +68,7 @@ function viewScheduledTasks(chatId) {
     const taskListMessage = scheduledTasks
       .map(
         (task, index) =>
-          `${index + 1}. ${task.task} - ${task.date.toDateString()}`,
+          `${index + 1}. ${task.done ? '✅' : '❌'} ${task.task} - ${task.date.toDateString()}`,
       )
       .join('\n');
 

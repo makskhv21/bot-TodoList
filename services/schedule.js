@@ -31,7 +31,7 @@ function scheduleTask(chatId) {
       return;
     }
 
-    const regex = /(.+)\s*-\s*(\d{4}\.\d{2}\.\d{2})/;
+    const regex = /^([^-\n]+?)\s*-\s*(\d{4}\.\d{2}\.\d{2})$/;
     const match = response.text.match(regex);
 
     if (!match) {

@@ -78,7 +78,8 @@ function handleViewTasks(chatId) {
 
 function handleDeleteTask(chatId, msgText) {
   const taskNumber = parseInt(msgText.split(' ')[1]) - 1;
-  if (userTasks[chatId] && userTasks[chatId][taskNumber]) {
+  const tasks = userTasks[chatId]?.[taskNumber];
+  if (tasks) {
     const removedTask = userTasks[chatId].splice(taskNumber, 1);
     bot.sendMessage(chatId, `🗑️ Завдання "${removedTask[0].task}" видалено.`);
   } else {
@@ -88,12 +89,10 @@ function handleDeleteTask(chatId, msgText) {
 
 function handleMarkDone(chatId, msgText) {
   const taskNumber = parseInt(msgText.split(' ')[1]) - 1;
-  if (userTasks[chatId] && userTasks[chatId][taskNumber]) {
-    userTasks[chatId][taskNumber].done = true;
-    bot.sendMessage(
-      chatId,
-      `✅ Завдання "${userTasks[chatId][taskNumber].task}" позначено як виконане.`,
-    );
+  const task = userTasks[chatId]?.[taskNumber];
+  if (task) {
+    task.done = true;
+    bot.sendMessage(chatId, `✅ Завдання "${task.task}" позначено як виконане.`);
   } else {
     bot.sendMessage(chatId, '❌ Помилка: завдання не знайдено.');
   }

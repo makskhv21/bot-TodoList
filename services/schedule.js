@@ -31,10 +31,8 @@ function scheduleTask(chatId) {
       return;
     }
 
-    const regex = /^[^-\n]+?\s*-\s*(\d{4}\.\d{2}\.\d{2})$/;
-    const match = response.text.match(regex);
-
-    if (!match) {
+    const parts = response.text.split(' - ');
+    if (parts.length !== 2 || !/\d{4}\.\d{2}\.\d{2}/.test(parts[1])) {
       bot.sendMessage(chatId, '❌ Невірний формат. Спробуй ще раз.');
       return;
     }

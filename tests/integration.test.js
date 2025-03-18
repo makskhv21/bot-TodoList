@@ -28,7 +28,8 @@ describe('Integration Tests', () => {
 
   test('handleStart sends a welcome message to the user', async () => {
     const msg = { chat: { id: 12345 } };
-    await handleStart(msg);
+    
+    handleStart(msg);
     expect(bot.sendMessage).toHaveBeenCalledWith(
       12345,
       expect.stringMatching(/Ласкаво/),
@@ -45,7 +46,7 @@ describe('Integration Tests', () => {
 
     require('../data').userTasks[chatId] = mockTasks;
 
-    await handleViewTasks(chatId);
+    handleViewTasks(chatId);
 
     expect(bot.sendMessage).toHaveBeenCalledWith(
       chatId,
@@ -83,8 +84,8 @@ describe('Integration Tests', () => {
       callback({ text: 'Test Task - 2024.12.10' });
     });
 
-    await scheduleTask('1');
-
+    
+    scheduleTask('1');
     expect(scheduledTasks.length).toBe(1);
     expect(scheduledTasks[0].task).toBe('Test Task');
     expect(bot.sendMessage).toHaveBeenCalledWith(

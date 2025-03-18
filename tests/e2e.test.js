@@ -59,11 +59,8 @@ describe('TaskBot End-to-End Tests', () => {
   });
 
   test('Should display task list when /viewTasks is called', () => {
-    // const userTasks = { [chatId]: [{ task: 'My new task', done: false }] };
-    // const msg = { chat: { id: chatId }, text: '/viewTasks' };
     handleViewTasks(chatId);
 
-    // const taskListMessage = '1. ❌ My new task';
     expect(bot.sendMessage).toHaveBeenCalledWith(
       chatId,
       expect.stringContaining('Ось твій список завдань:'),
@@ -124,8 +121,6 @@ describe('TaskBot End-to-End Tests', () => {
   });
 
   test('Should handle empty task list when viewing tasks', () => {
-    // const emptyUserTasks = { [chatId]: [] };
-    // const msg = { chat: { id: chatId }, text: '/viewTasks' };
     handleViewTasks(chatId);
 
     expect(bot.sendMessage).toHaveBeenCalledWith(

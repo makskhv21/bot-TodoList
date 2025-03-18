@@ -23,7 +23,7 @@ describe('handleStart', () => {
   it('should send welcome message with correct keyboard options', async () => {
     const msg = { chat: { id: 11111 } };
 
-    await handleStart(msg);
+    handleStart(msg);
 
     expect(bot.sendMessage).toHaveBeenCalledWith(
       11111,
@@ -50,7 +50,7 @@ describe('handleFeedback', () => {
       callback({ text: 'Test feedback', from: { username: 'testUser' } });
     });
 
-    await handleFeedback(msg);
+    handleFeedback(msg);
 
     expect(bot.sendMessage).toHaveBeenCalledWith(
       11111,
@@ -70,7 +70,7 @@ describe('handleFeedback', () => {
       callback({ text: '' });
     });
 
-    await handleFeedback(msg);
+    handleFeedback(msg);
 
     expect(bot.sendMessage).toHaveBeenCalledWith(
       11111,
@@ -85,7 +85,7 @@ describe('handleFeedback', () => {
       callback({ text: 'Anonymous feedback', from: { id: 99999 } });
     });
 
-    await handleFeedback(msg);
+    handleFeedback(msg);
 
     expect(bot.sendMessage).toHaveBeenCalledWith(
       11111,
@@ -105,7 +105,7 @@ describe('handleFeedback', () => {
       callback({ text: null });
     });
 
-    await handleFeedback(msg);
+    handleFeedback(msg);
 
     expect(bot.sendMessage).toHaveBeenCalledWith(
       11111,
@@ -120,7 +120,7 @@ describe('handleFeedback', () => {
       callback({ text: undefined });
     });
 
-    await handleFeedback(msg);
+    handleFeedback(msg);
 
     expect(bot.sendMessage).toHaveBeenCalledWith(
       11111,
